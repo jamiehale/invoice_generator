@@ -25,6 +25,9 @@ require 'invoice_generator/address_dumper'
 require 'invoice_generator/address_generator'
 require 'invoice_generator/blank_line'
 require 'invoice_generator/blank_line_dumper'
+require 'invoice_generator/company'
+require 'invoice_generator/company_dumper'
+require 'invoice_generator/company_generator'
 require 'invoice_generator/customer'
 require 'invoice_generator/customer_dumper'
 require 'invoice_generator/customer_generator'
@@ -39,9 +42,6 @@ require 'invoice_generator/line_item'
 require 'invoice_generator/line_item_dumper'
 require 'invoice_generator/lines_dumper'
 require 'invoice_generator/lines_generator'
-require 'invoice_generator/me'
-require 'invoice_generator/me_dumper'
-require 'invoice_generator/me_generator'
 require 'invoice_generator/project'
 require 'invoice_generator/project_dumper'
 require 'invoice_generator/project_generator'
@@ -52,9 +52,9 @@ require 'invoice_generator/tax_line_item_dumper'
 $root_path = File.expand_path( File.join( File.dirname( __FILE__ ), '..' ) )
 $res_path = File.join( $root_path, 'res' )
 
-def me( name, &blk )
-  $invoice.me.name = name
-  InvoiceGenerator::MeGenerator.new( $invoice.me ).instance_eval( &blk )
+def company( name, &blk )
+  $invoice.company.name = name
+  InvoiceGenerator::CompanyGenerator.new( $invoice.company ).instance_eval( &blk )
 end
 
 def customer( name, &blk )

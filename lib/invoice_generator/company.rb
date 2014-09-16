@@ -17,23 +17,12 @@
 
 module InvoiceGenerator
   
-  class MeDumper
+  class Company
+    
+    include Address
+    
+    attr_accessor :name, :email, :hst, :logo_filename
 
-    include LatexHelper
-    include AddressDumper
-    
-    def initialize( me )
-      @me = me
-    end
-    
-    def dump_latex_definitions( f )
-      dump_definition( f, "invMyName", @me.name )
-      dump_definition( f, "invMyEmail", @me.email )
-      dump_definition( f, "invMyHstNumber", @me.hst )
-      dump_definition( f, "invMyLogoFilename", @me.logo_filename)
-      dump_address_definitions( f, @me, "My" )
-    end
-    
   end
   
 end

@@ -26,7 +26,7 @@ module InvoiceGenerator
     end
     
     def dump_latex_definitions( f = STDOUT )
-      MeDumper.new( @invoice.me ).dump_latex_definitions( f )
+      CompanyDumper.new( @invoice.company ).dump_latex_definitions( f )
       CustomerDumper.new( @invoice.customer ).dump_latex_definitions( f )
       ProjectDumper.new( @invoice.project ).dump_latex_definitions( f )
       dump_definition( f, "invNumber", @invoice.number )

@@ -19,13 +19,13 @@ module InvoiceGenerator
   
   class Invoice
     
-    attr_accessor :number, :date, :message, :lines, :groups, :me, :customer, :project
+    attr_accessor :number, :date, :message, :lines, :groups, :company, :customer, :project
     
     def initialize
       @date = DateTime.now.strftime( "%Y-%m-%d")
       @lines = []
       @groups = {}
-      @me = Me.new
+      @company = Company.new
       @customer = Customer.new
       @project = Project.new
     end

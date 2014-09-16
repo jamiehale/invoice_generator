@@ -6,6 +6,12 @@ simple DSL.
 Create a DSL file that describes the invoice, run it, and it produces an
 invoice PDF.
 
+## Terminology ##
+
+Company - The company producing the invoice.
+
+Customer - The company who is being invoiced.
+
 ## DSL ##
 
 Here's a sample invoice file:
@@ -14,7 +20,7 @@ Here's a sample invoice file:
     
     require 'invoice'
     
-    me "Small Army Of Nerds Corp." do
+    company "Small Army Of Nerds Corp." do
       address "202-327 Renfrew Drive"
       city "Markham"
       province "ON"

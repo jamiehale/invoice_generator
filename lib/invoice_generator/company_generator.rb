@@ -17,12 +17,31 @@
 
 module InvoiceGenerator
   
-  class Me
+  class CompanyGenerator
     
-    include Address
+    include AddressGenerator
     
-    attr_accessor :name, :email, :hst, :logo_filename
-
+    def initialize( company )
+      @company = company
+      @addressee = company
+    end
+    
+    def name( name )
+      @company.name = name
+    end
+    
+    def email( email )
+      @company.email = email
+    end
+    
+    def hst( hst )
+      @company.hst = hst
+    end
+    
+    def logo_filename( logo_filename )
+      @company.logo_filename = logo_filename
+    end
+    
   end
   
 end
