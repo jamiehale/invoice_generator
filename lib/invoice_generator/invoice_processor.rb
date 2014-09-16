@@ -46,13 +46,13 @@ module InvoiceGenerator
 
       def dump_latex_definitions( filename_root )
         open( output_filename( filename_root ), "w" ) do |f|
-          InvoiceDumper.new( $invoice ).dump_latex_definitions( f )
+          Dumpers::InvoiceDumper.new( $invoice ).dump_latex_definitions( f )
         end
       end
 
       def dump_latex_rows()
         open( "out/invoice_rows.tex", "w" ) do |f|
-          InvoiceDumper.new( $invoice ).dump_latex_rows( f )
+          Dumpers::InvoiceDumper.new( $invoice ).dump_latex_rows( f )
         end
       end
     

@@ -15,16 +15,29 @@
 # You should have received a copy of the GNU General Public License
 # along with invoice_generator.  If not, see <http://www.gnu.org/licenses/>.
 
-Gem::Specification.new do |s|
-  s.name        = 'invoice_generator'
-  s.version     = '0.0.9'
-  s.date        = '2014-09-12'
-  s.summary     = "Invoice generator"
-  s.description = "Script for creating LaTeX input files for generating invoices."
-  s.license     = 'GPL-3.0'
-  s.authors     = ["Jamie Hale"]
-  s.email       = 'jamie@smallarmyofnerds.com'
-  s.homepage    = 'http://smallarmyofnerds.com'
-  s.files        = Dir["{lib}/**/*.rb", "res/**/*", "COPYING", "*.md"]
-  s.require_path = 'lib'
+module InvoiceGenerator
+  
+  module Model
+  
+    class Invoice
+    
+      attr_accessor :number, :date, :message, :lines, :groups, :company, :customer, :project
+    
+      def initialize
+        @date = DateTime.now.strftime( "%Y-%m-%d")
+        @lines = []
+        @groups = {}
+        @company = Company.new
+        @customer = Customer.new
+        @project = Project.new
+      end
+    
+      def total
+        @lines.inject( 0.0 ) { |result,line| result + line.total }
+      end
+    
+    end
+    
+  end
+  
 end

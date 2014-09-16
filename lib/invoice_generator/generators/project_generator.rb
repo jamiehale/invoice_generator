@@ -15,16 +15,40 @@
 # You should have received a copy of the GNU General Public License
 # along with invoice_generator.  If not, see <http://www.gnu.org/licenses/>.
 
-Gem::Specification.new do |s|
-  s.name        = 'invoice_generator'
-  s.version     = '0.0.9'
-  s.date        = '2014-09-12'
-  s.summary     = "Invoice generator"
-  s.description = "Script for creating LaTeX input files for generating invoices."
-  s.license     = 'GPL-3.0'
-  s.authors     = ["Jamie Hale"]
-  s.email       = 'jamie@smallarmyofnerds.com'
-  s.homepage    = 'http://smallarmyofnerds.com'
-  s.files        = Dir["{lib}/**/*.rb", "res/**/*", "COPYING", "*.md"]
-  s.require_path = 'lib'
+module InvoiceGenerator
+  
+  module Generators
+  
+    class ProjectGenerator
+    
+      def initialize( project, customers )
+        @project = project
+        @customers = customers
+      end
+    
+      def name( name )
+        @project.name = name
+      end
+    
+      def customer( id )
+        raise "Customer \"#{id}\" has not been defined" if @customers[ id ].nil?
+        @project.customer = @customers[ id ]
+      end
+    
+      def purchase_order( purchase_order )
+        @project.purchase_order = purchase_order
+      end
+    
+      def terms( terms )
+        @project.terms = terms
+      end
+    
+      def item( id, name, rate, decimals = 2 )
+        @project.items[ id ] = Model::ProjectItem.new( id, name, rate, decimals )
+      end
+    
+    end
+    
+  end
+  
 end

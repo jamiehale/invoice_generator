@@ -18,68 +18,70 @@
 require 'date'
 require 'fileutils'
 
-require 'invoice_generator/latex_helper'
-
-require 'invoice_generator/address'
-require 'invoice_generator/address_dumper'
-require 'invoice_generator/address_generator'
-require 'invoice_generator/blank_line'
-require 'invoice_generator/blank_line_dumper'
-require 'invoice_generator/companies'
-require 'invoice_generator/companies_generator'
-require 'invoice_generator/company'
-require 'invoice_generator/company_dumper'
-require 'invoice_generator/company_generator'
-require 'invoice_generator/customer'
-require 'invoice_generator/customer_dumper'
-require 'invoice_generator/customer_generator'
-require 'invoice_generator/customers'
-require 'invoice_generator/customers_generator'
-require 'invoice_generator/invoice'
-require 'invoice_generator/invoice_dumper'
-require 'invoice_generator/invoice_generator'
 require 'invoice_generator/invoice_processor'
-require 'invoice_generator/line_group'
-require 'invoice_generator/line_group_dumper'
-require 'invoice_generator/line_group_generator'
-require 'invoice_generator/line_item'
-require 'invoice_generator/line_item_dumper'
-require 'invoice_generator/lines_dumper'
-require 'invoice_generator/lines_generator'
-require 'invoice_generator/project'
-require 'invoice_generator/project_dumper'
-require 'invoice_generator/project_generator'
-require 'invoice_generator/projects'
-require 'invoice_generator/projects_generator'
-require 'invoice_generator/project_item'
-require 'invoice_generator/tax_line_item'
-require 'invoice_generator/tax_line_item_dumper'
+
+require 'invoice_generator/model/address'
+require 'invoice_generator/model/blank_line'
+require 'invoice_generator/model/companies'
+require 'invoice_generator/model/company'
+require 'invoice_generator/model/customer'
+require 'invoice_generator/model/customers'
+require 'invoice_generator/model/invoice'
+require 'invoice_generator/model/line_group'
+require 'invoice_generator/model/line_item'
+require 'invoice_generator/model/project'
+require 'invoice_generator/model/projects'
+require 'invoice_generator/model/project_item'
+require 'invoice_generator/model/tax_line_item'
+
+require 'invoice_generator/dumpers/latex_helper'
+require 'invoice_generator/dumpers/address_dumper'
+require 'invoice_generator/dumpers/blank_line_dumper'
+require 'invoice_generator/dumpers/company_dumper'
+require 'invoice_generator/dumpers/customer_dumper'
+require 'invoice_generator/dumpers/invoice_dumper'
+require 'invoice_generator/dumpers/line_group_dumper'
+require 'invoice_generator/dumpers/line_item_dumper'
+require 'invoice_generator/dumpers/lines_dumper'
+require 'invoice_generator/dumpers/project_dumper'
+require 'invoice_generator/dumpers/tax_line_item_dumper'
+
+require 'invoice_generator/generators/address_generator'
+require 'invoice_generator/generators/companies_generator'
+require 'invoice_generator/generators/company_generator'
+require 'invoice_generator/generators/customer_generator'
+require 'invoice_generator/generators/customers_generator'
+require 'invoice_generator/generators/invoice_generator'
+require 'invoice_generator/generators/line_group_generator'
+require 'invoice_generator/generators/lines_generator'
+require 'invoice_generator/generators/project_generator'
+require 'invoice_generator/generators/projects_generator'
 
 $ROOT_PATH = File.expand_path( File.join( File.dirname( __FILE__ ), '..' ) )
 $RES_PATH = File.join( $ROOT_PATH, 'res' )
 
 $pdflatex = 'pdflatex'
 
-$companies = InvoiceGenerator::Companies.new
-$customers = InvoiceGenerator::Customers.new
-$projects = InvoiceGenerator::Projects.new
-$invoice = InvoiceGenerator::Invoice.new
+$companies = InvoiceGenerator::Model::Companies.new
+$customers = InvoiceGenerator::Model::Customers.new
+$projects = InvoiceGenerator::Model::Projects.new
+$invoice = InvoiceGenerator::Model::Invoice.new
 
 def companies( &blk )
-  InvoiceGenerator::CompaniesGenerator.new( $companies ).instance_eval( &blk )
+  InvoiceGenerator::Generators::CompaniesGenerator.new( $companies ).instance_eval( &blk )
 end
 
 def customers( &blk )
-  InvoiceGenerator::CustomersGenerator.new( $customers ).instance_eval( &blk )
+  InvoiceGenerator::Generators::CustomersGenerator.new( $customers ).instance_eval( &blk )
 end
 
 def projects( &blk )
-  InvoiceGenerator::ProjectsGenerator.new( $projects, $customers ).instance_eval( &blk )
+  InvoiceGenerator::Generators::ProjectsGenerator.new( $projects, $customers ).instance_eval( &blk )
 end
 
 def invoice( number, &blk )
   $invoice.number = number
-  InvoiceGenerator::InvoiceGenerator.new( $invoice, $companies, $projects ).instance_eval( &blk )
+  InvoiceGenerator::Generators::InvoiceGenerator.new( $invoice, $companies, $projects ).instance_eval( &blk )
 end
 
 def process( filename_root, generate_tex = true )
