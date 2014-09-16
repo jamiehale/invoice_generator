@@ -33,7 +33,7 @@ module InvoiceGenerator
     private
     
       def copy_template_files( destination_path )
-        FileUtils.cp_r Dir.glob( "#{$res_path}/*" ), destination_path
+        FileUtils.cp_r Dir.glob( "#{$RES_PATH}/*" ), destination_path
       end
       
       def create_output_folder

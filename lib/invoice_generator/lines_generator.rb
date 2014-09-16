@@ -35,10 +35,12 @@ module InvoiceGenerator
     end
     
     def tax_item( group_id, name )
+      raise "Group \"#{group_id}\" has not been defined" if @invoice.groups[ group_id ].nil?
       @invoice.lines << TaxLineItem.new( @invoice.groups[ group_id ], name )
     end
     
     def item( item_id, units )
+      raise "Project item \"#{item_id}\" does not exist in project \"#{@invoice.project.name}\"" if @invoice.project.items[ item_id ].nil?
       @invoice.lines << LineItem.new( @invoice.project.items[ item_id ], units )
     end
     

@@ -17,41 +17,17 @@
 
 module InvoiceGenerator
   
-  class InvoiceGenerator
-    
-    def initialize( invoice, companies, customers, projects )
-      @invoice = invoice
+  class CompaniesGenerator
+
+    def initialize( companies )
       @companies = companies
-      @customers = customers
-      @projects = projects
     end
-    
-    def company( id )
-      @invoice.company = @companies[ id ]
-    end
-    
-    def customer( id )
-      @invoice.customer = @customers[ id ]
-    end
-    
-    def project( id )
-      @invoice.project = @projects[ id ]
-    end
-    
-    def number( number )
-      @invoice.number = number
-    end
-    
-    def date( date )
-      @invoice.date = date
-    end
-    
-    def message( message )
-      @invoice.message = message
-    end
-    
-    def lines( &blk )
-      LinesGenerator.new( @invoice ).instance_eval( &blk )
+
+    def company( id, &blk )
+      company = Company.new
+      company.id = id
+      @companies[ id ] = company
+      CompanyGenerator.new( company ).instance_eval( &blk )
     end
     
   end

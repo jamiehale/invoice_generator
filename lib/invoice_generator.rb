@@ -25,12 +25,16 @@ require 'invoice_generator/address_dumper'
 require 'invoice_generator/address_generator'
 require 'invoice_generator/blank_line'
 require 'invoice_generator/blank_line_dumper'
+require 'invoice_generator/companies'
+require 'invoice_generator/companies_generator'
 require 'invoice_generator/company'
 require 'invoice_generator/company_dumper'
 require 'invoice_generator/company_generator'
 require 'invoice_generator/customer'
 require 'invoice_generator/customer_dumper'
 require 'invoice_generator/customer_generator'
+require 'invoice_generator/customers'
+require 'invoice_generator/customers_generator'
 require 'invoice_generator/invoice'
 require 'invoice_generator/invoice_dumper'
 require 'invoice_generator/invoice_generator'
@@ -45,36 +49,39 @@ require 'invoice_generator/lines_generator'
 require 'invoice_generator/project'
 require 'invoice_generator/project_dumper'
 require 'invoice_generator/project_generator'
+require 'invoice_generator/projects'
+require 'invoice_generator/projects_generator'
 require 'invoice_generator/project_item'
 require 'invoice_generator/tax_line_item'
 require 'invoice_generator/tax_line_item_dumper'
 
-$root_path = File.expand_path( File.join( File.dirname( __FILE__ ), '..' ) )
-$res_path = File.join( $root_path, 'res' )
+$ROOT_PATH = File.expand_path( File.join( File.dirname( __FILE__ ), '..' ) )
+$RES_PATH = File.join( $ROOT_PATH, 'res' )
 
-def company( id, &blk )
-  $invoice.company.id = id
-  InvoiceGenerator::CompanyGenerator.new( $invoice.company ).instance_eval( &blk )
+$pdflatex = 'pdflatex'
+
+$companies = InvoiceGenerator::Companies.new
+$customers = InvoiceGenerator::Customers.new
+$projects = InvoiceGenerator::Projects.new
+$invoice = InvoiceGenerator::Invoice.new
+
+def companies( &blk )
+  InvoiceGenerator::CompaniesGenerator.new( $companies ).instance_eval( &blk )
 end
 
-def customer( id, &blk )
-  $invoice.customer.id = id
-  InvoiceGenerator::CustomerGenerator.new( $invoice.customer ).instance_eval( &blk )
+def customers( &blk )
+  InvoiceGenerator::CustomersGenerator.new( $customers ).instance_eval( &blk )
 end
 
-def project( id, &blk )
-  $invoice.project.id = id
-  InvoiceGenerator::ProjectGenerator.new( $invoice.project ).instance_eval( &blk )
+def projects( &blk )
+  InvoiceGenerator::ProjectsGenerator.new( $projects ).instance_eval( &blk )
 end
 
 def invoice( number, &blk )
   $invoice.number = number
-  InvoiceGenerator::InvoiceGenerator.new( $invoice ).instance_eval( &blk )
+  InvoiceGenerator::InvoiceGenerator.new( $invoice, $companies, $customers, $projects ).instance_eval( &blk )
 end
 
 def process( filename_root, generate_tex = true )
   InvoiceGenerator::InvoiceProcessor.new.process( filename_root, generate_tex )
 end
-
-$invoice = InvoiceGenerator::Invoice.new
-$pdflatex = 'pdflatex'

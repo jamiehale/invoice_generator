@@ -25,6 +25,7 @@ module InvoiceGenerator
     end
     
     def item( item_id, units )
+      raise "Project item \"#{item_id}\" does not exist in project \"#{@project.name}\"" if @project.items[ item_id ].nil?
       @line_group.lines << LineItem.new( @project.items[ item_id ], units )
     end
     
