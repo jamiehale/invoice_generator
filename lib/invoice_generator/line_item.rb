@@ -19,29 +19,21 @@ module InvoiceGenerator
   
   class LineItem
     
-    include LatexHelper
+    attr_accessor :units, :project_item
     
-    attr_accessor :id, :units
-    
-    def initialize( id, units )
-      @id = id
+    def initialize( project_item, units )
+      @project_item = project_item
       @units = units
-      @project_item = $project.items[ @id ]
     end
     
     def total
       @project_item.rounded_rate * @units
     end
-    
-    def dump_latex_rows( f )
-      f.puts "\\unitRow{#{@project_item.name}}{#{@units}}{#{rate}}{#{formatted_amount(total)}}"
+
+    def create_dumper
+      LineItemDumper.new( self )
     end
     
-    private
-    
-      def rate
-        formatted_amount( @project_item.rounded_rate, @project_item.decimals )
-      end
   end
   
 end

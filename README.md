@@ -1,9 +1,10 @@
 ## Introduction ##
 
 invoice_generator is a Ruby gem that I use to create invoice PDFs from a
-simple DSL. Right now it's personalized for my own use, but it shouldn't
-take much to tweak it for yourself. (Without thinking about it too much,
-you probably just have to replace the logo.)
+simple DSL.
+
+Create a DSL file that describes the invoice, run it, and it produces an
+invoice PDF.
 
 ## DSL ##
 
@@ -56,4 +57,4 @@ Here's a sample invoice file:
       end
     end
     
-    dump( __FILE__ )
+    process( __FILE__ )

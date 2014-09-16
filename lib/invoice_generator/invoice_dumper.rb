@@ -17,22 +17,28 @@
 
 module InvoiceGenerator
   
-  class LineGroup
+  class InvoiceDumper
     
-    attr_accessor :id, :name, :lines
+    include LatexHelper
     
-    def initialize( id, name )
-      @id = id
-      @name = name
-      @lines = []
+    def initialize( invoice )
+      @invoice = invoice
     end
     
-    def total
-      @lines.inject( 0.0 ) { |result,line| result + line.total }
+    def dump_latex_definitions( f = STDOUT )
+      MeDumper.new( @invoice.me ).dump_latex_definitions( f )
+      CustomerDumper.new( @invoice.customer ).dump_latex_definitions( f )
+      ProjectDumper.new( @invoice.project ).dump_latex_definitions( f )
+      dump_definition( f, "invNumber", @invoice.number )
+      dump_definition( f, "invDate", @invoice.date )
+      dump_definition( f, "invMessage", @invoice.message )
+      dump_definition( f, "invTotal", formatted_amount( @invoice.total ) )
+      f.puts( "\\input{template/invoice.tex}" )
     end
     
-    def create_dumper
-      LineGroupDumper.new( self )
+    def dump_latex_rows( f = STDOUT )
+      f.puts '\\\\'
+      LinesDumper.new( @invoice.lines ).dump_latex_rows( f )
     end
     
   end

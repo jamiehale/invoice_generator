@@ -19,33 +19,10 @@ module InvoiceGenerator
   
   class Project
     
-    include LatexHelper
+    attr_accessor :name, :purchase_order, :terms, :items
     
-    attr_reader :name, :purchase_order, :terms, :items
-    
-    def initialize( name )
-      @name = name
-      @purchase_order = ""
-      @terms = ""
+    def initialize
       @items = {}
-    end
-    
-    def purchase_order( purchase_order )
-      @purchase_order = purchase_order
-    end
-    
-    def terms( terms )
-      @terms = terms
-    end
-    
-    def item( id, name, rate, decimals = 2 )
-      @items[ id ] = ProjectItem.new( id, name, rate, decimals )
-    end
-    
-    def dump_latex_definitions( f )
-      dump_definition( f, "invProjectName", @name )
-      dump_definition( f, "invProjectPurchaseOrder", @purchase_order )
-      dump_definition( f, "invProjectTerms", @terms )
     end
     
   end

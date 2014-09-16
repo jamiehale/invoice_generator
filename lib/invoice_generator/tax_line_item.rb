@@ -19,7 +19,7 @@ module InvoiceGenerator
   
   class TaxLineItem
     
-    include LatexHelper
+    attr_accessor :group, :name
     
     def initialize( group, name )
       @group = group
@@ -30,8 +30,8 @@ module InvoiceGenerator
       ( @group.total * 0.13 ).round( 2 )
     end
     
-    def dump_latex_rows( f )
-      f.puts "\\taxRow{#{@name}}{#{formatted_amount(total)}}"
+    def create_dumper
+      TaxLineItemDumper.new( self )
     end
     
   end

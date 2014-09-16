@@ -19,38 +19,8 @@ module InvoiceGenerator
   
   module Address
     
-    attr_reader :address, :city, :province, :postal_code, :phone
-    
-    def address( address )
-      @address = address
-    end
-    
-    def city( city )
-      @city = city
-    end
-    
-    def province( province )
-      @province = province
-    end
-    
-    def postal_code( postal_code )
-      @postal_code = postal_code
-    end
-    
-    def phone( phone )
-      @phone = phone
-    end
-    
-    private
-    
-      def dump_address_definitions( f, prefix )
-        dump_definition( f, "inv#{prefix}Address", @address )
-        dump_definition( f, "inv#{prefix}City", @city )
-        dump_definition( f, "inv#{prefix}Province", @province )
-        dump_definition( f, "inv#{prefix}PostalCode", @postal_code )
-        dump_definition( f, "inv#{prefix}Phone", @phone )
-      end
-    
+    attr_accessor :address, :city, :province, :postal_code, :phone
+        
   end
   
 end

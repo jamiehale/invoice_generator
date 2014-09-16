@@ -58,7 +58,7 @@
 \def \tab {\hspace*{3ex}}
 
 \newcommand{\invoiceHeader}{
-  \hfil \includegraphics[width=0.6\textwidth]{SAON_logo_header.png} \hfil
+  \hfil \includegraphics[width=0.6\textwidth]{\invMyLogoFilename} \hfil
   \bigskip\break
   \hrule
 

@@ -19,55 +19,62 @@ require 'date'
 require 'fileutils'
 
 require 'invoice_generator/latex_helper'
-require 'invoice_generator/address'
 
+require 'invoice_generator/address'
+require 'invoice_generator/address_dumper'
+require 'invoice_generator/address_generator'
 require 'invoice_generator/blank_line'
+require 'invoice_generator/blank_line_dumper'
 require 'invoice_generator/customer'
+require 'invoice_generator/customer_dumper'
+require 'invoice_generator/customer_generator'
 require 'invoice_generator/invoice'
+require 'invoice_generator/invoice_dumper'
+require 'invoice_generator/invoice_generator'
+require 'invoice_generator/invoice_processor'
 require 'invoice_generator/line_group'
+require 'invoice_generator/line_group_dumper'
+require 'invoice_generator/line_group_generator'
 require 'invoice_generator/line_item'
-require 'invoice_generator/lines'
+require 'invoice_generator/line_item_dumper'
+require 'invoice_generator/lines_dumper'
+require 'invoice_generator/lines_generator'
 require 'invoice_generator/me'
+require 'invoice_generator/me_dumper'
+require 'invoice_generator/me_generator'
 require 'invoice_generator/project'
+require 'invoice_generator/project_dumper'
+require 'invoice_generator/project_generator'
 require 'invoice_generator/project_item'
 require 'invoice_generator/tax_line_item'
+require 'invoice_generator/tax_line_item_dumper'
+
+$root_path = File.expand_path( File.join( File.dirname( __FILE__ ), '..' ) )
+$res_path = File.join( $root_path, 'res' )
 
 def me( name, &blk )
-  $me = InvoiceGenerator::Me.new( name )
-  $me.instance_eval( &blk )
+  $invoice.me.name = name
+  InvoiceGenerator::MeGenerator.new( $invoice.me ).instance_eval( &blk )
 end
 
 def customer( name, &blk )
-  $customer = InvoiceGenerator::Customer.new( name )
-  $customer.instance_eval( &blk )
+  $invoice.customer.name = name
+  InvoiceGenerator::CustomerGenerator.new( $invoice.customer ).instance_eval( &blk )
 end
 
 def project( name, &blk )
-  $project = InvoiceGenerator::Project.new( name )
-  $project.instance_eval( &blk )
+  $invoice.project.name = name
+  InvoiceGenerator::ProjectGenerator.new( $invoice.project ).instance_eval( &blk )
 end
 
 def invoice( number, &blk )
-  $invoice = InvoiceGenerator::Invoice.new( number )
-  $invoice.instance_eval( &blk )
+  $invoice.number = number
+  InvoiceGenerator::InvoiceGenerator.new( $invoice ).instance_eval( &blk )
 end
 
-$me = nil
-$customer = nil
-$project = nil
-$invoice = nil
-
-def copy_template_files( destination_path )
-  resources_path = File.expand_path( File.dirname( __FILE__ ) + '/../res' )
-  FileUtils.cp_r Dir.glob( "#{resources_path}/*" ), destination_path
+def process( filename_root, generate_tex = true )
+  InvoiceGenerator::InvoiceProcessor.new.process( filename_root, generate_tex )
 end
 
-def dump( filename_root )
-  copy_template_files( File.dirname( filename_root ) )
-  open( "#{filename_root}.tex", "w" ) do |f|
-    $invoice.dump_latex_definitions( f )
-  end
-  open( "invoice_rows.tex", "w" ) do |f|
-    $invoice.dump_latex_rows( f )
-  end
-end
+$invoice = InvoiceGenerator::Invoice.new
+$pdflatex = 'pdflatex'

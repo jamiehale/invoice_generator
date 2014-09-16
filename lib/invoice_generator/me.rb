@@ -19,30 +19,10 @@ module InvoiceGenerator
   
   class Me
     
-    include LatexHelper
     include Address
     
-    attr_reader :name
-    
-    def initialize( name )
-      @name = name
-    end
-    
-    def email( email )
-      @email = email
-    end
-    
-    def hst( hst )
-      @hst = hst
-    end
-    
-    def dump_latex_definitions( f )
-      dump_definition( f, "invMyName", @name )
-      dump_definition( f, "invMyEmail", @email )
-      dump_definition( f, "invMyHstNumber", @hst )
-      dump_address_definitions( f, "My" )
-    end
-    
+    attr_accessor :name, :email, :hst, :logo_filename
+
   end
   
 end

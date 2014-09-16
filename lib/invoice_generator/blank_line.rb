@@ -23,10 +23,9 @@ module InvoiceGenerator
       0.0
     end
     
-    def dump_latex_rows( f )
-      f.puts "\\blankRow"
+    def create_dumper
+      BlankLineDumper.new
     end
-    
   end
   
 end

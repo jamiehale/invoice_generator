@@ -19,47 +19,19 @@ module InvoiceGenerator
   
   class Invoice
     
-    include LatexHelper
+    attr_accessor :number, :date, :message, :lines, :groups, :me, :customer, :project
     
-    attr_reader :number, :date, :message, :lines
-    
-    def initialize( number )
-      @number = number
+    def initialize
       @date = DateTime.now.strftime( "%Y-%m-%d")
-      @message = ""
-      @lines = Lines.new
-    end
-    
-    def date( date )
-      @date = date
-    end
-    
-    def message( message )
-      @message = message
-    end
-    
-    def lines( &blk )
-      @lines.instance_eval( &blk )
+      @lines = []
+      @groups = {}
+      @me = Me.new
+      @customer = Customer.new
+      @project = Project.new
     end
     
     def total
-      @lines.total
-    end
-    
-    def dump_latex_definitions( f = STDOUT )
-      $me.dump_latex_definitions( f )
-      $customer.dump_latex_definitions( f )
-      $project.dump_latex_definitions( f )
-      dump_definition( f, "invNumber", @number )
-      dump_definition( f, "invDate", @date )
-      dump_definition( f, "invMessage", @message )
-      dump_definition( f, "invTotal", formatted_amount( total ) )
-      f.puts( "\\input{invoice.tex}" )
-    end
-    
-    def dump_latex_rows( f = STDOUT )
-      f.puts '\\\\'
-      @lines.dump_latex_rows( f )
+      @lines.inject( 0.0 ) { |result,line| result + line.total }
     end
     
   end

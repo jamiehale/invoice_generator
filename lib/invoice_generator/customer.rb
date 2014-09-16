@@ -17,23 +17,10 @@
 module InvoiceGenerator
   
   class Customer
-    
-    include LatexHelper
+
     include Address
     
-    def initialize( name )
-      @name = name
-    end
-    
-    def attention( attention )
-      @attention = attention
-    end
-    
-    def dump_latex_definitions( f )
-      dump_definition( f, "invCustomerName", @name )
-      dump_address_definitions( f, "Customer" )
-      dump_definition( f, "invCustomerAttention", @attention )
-    end
+    attr_accessor :name, :attention
     
   end
   

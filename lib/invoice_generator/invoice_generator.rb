@@ -17,40 +17,27 @@
 
 module InvoiceGenerator
   
-  class Lines
+  class InvoiceGenerator
     
-    def initialize
-      @lines = []
-      @groups = {}
+    def initialize( invoice )
+      @invoice = invoice
+      @lines = LinesGenerator.new( invoice )
     end
     
-    def blank
-      @lines << BlankLine.new
+    def number( number )
+      @invoice.number = number
     end
     
-    def group( group_id, name, &blk )
-      group = LineGroup.new( group_id, name )
-      group.instance_eval( &blk )
-      @lines << group
-      @groups[ group_id ] = group
+    def date( date )
+      @invoice.date = date
     end
     
-    def tax_item( group_id, name )
-      @lines << TaxLineItem.new( @groups[ group_id ], name )
+    def message( message )
+      @invoice.message = message
     end
     
-    def item( item_id, units )
-      @lines << LineItem.new( item_id, units )
-    end
-    
-    def total
-      @lines.inject( 0.0 ) { |result,line| result + line.total }
-    end
-    
-    def dump_latex_rows( f )
-      @lines.each do |line|
-        line.dump_latex_rows( f )
-      end
+    def lines( &blk )
+      @lines.instance_eval( &blk )
     end
     
   end

@@ -15,16 +15,20 @@
 # You should have received a copy of the GNU General Public License
 # along with invoice_generator.  If not, see <http://www.gnu.org/licenses/>.
 
-Gem::Specification.new do |s|
-  s.name        = 'invoice_generator'
-  s.version     = '0.0.3'
-  s.date        = '2014-09-12'
-  s.summary     = "Invoice generator"
-  s.description = "Script for creating LaTeX input files for generating invoices."
-  s.license     = 'GPL-3.0'
-  s.authors     = ["Jamie Hale"]
-  s.email       = 'jamie@smallarmyofnerds.com'
-  s.homepage    = 'http://smallarmyofnerds.com'
-  s.files        = Dir["{lib}/**/*.rb", "res/**/*", "COPYING", "*.md"]
-  s.require_path = 'lib'
+module InvoiceGenerator
+  
+  module AddressDumper
+    
+    private
+    
+      def dump_address_definitions( f, addressee, prefix )
+        dump_definition( f, "inv#{prefix}Address", addressee.address )
+        dump_definition( f, "inv#{prefix}City", addressee.city )
+        dump_definition( f, "inv#{prefix}Province", addressee.province )
+        dump_definition( f, "inv#{prefix}PostalCode", addressee.postal_code )
+        dump_definition( f, "inv#{prefix}Phone", addressee.phone )
+      end
+    
+  end
+  
 end
