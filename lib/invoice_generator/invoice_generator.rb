@@ -19,22 +19,19 @@ module InvoiceGenerator
   
   class InvoiceGenerator
     
-    def initialize( invoice, companies, customers, projects )
+    def initialize( invoice, companies, projects )
       @invoice = invoice
       @companies = companies
-      @customers = customers
       @projects = projects
     end
     
     def company( id )
+      raise "Company \"#{id}\" has not been defined" if @companies[ id ].nil?
       @invoice.company = @companies[ id ]
     end
     
-    def customer( id )
-      @invoice.customer = @customers[ id ]
-    end
-    
     def project( id )
+      raise "Project \"#{id}\" has not been defined" if @projects[ id ].nil?
       @invoice.project = @projects[ id ]
     end
     

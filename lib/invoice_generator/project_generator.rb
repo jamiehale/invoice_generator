@@ -19,12 +19,18 @@ module InvoiceGenerator
   
   class ProjectGenerator
     
-    def initialize( project )
+    def initialize( project, customers )
       @project = project
+      @customers = customers
     end
     
     def name( name )
       @project.name = name
+    end
+    
+    def customer( id )
+      raise "Customer \"#{id}\" has not been defined" if @customers[ id ].nil?
+      @project.customer = @customers[ id ]
     end
     
     def purchase_order( purchase_order )

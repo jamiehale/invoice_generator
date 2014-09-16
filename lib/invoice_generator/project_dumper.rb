@@ -26,6 +26,7 @@ module InvoiceGenerator
     end
     
     def dump_latex_definitions( f )
+      CustomerDumper.new( @project.customer ).dump_latex_definitions( f )
       dump_definition( f, "invProjectName", @project.name )
       dump_definition( f, "invProjectPurchaseOrder", @project.purchase_order )
       dump_definition( f, "invProjectTerms", @project.terms )

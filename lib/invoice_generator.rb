@@ -74,12 +74,12 @@ def customers( &blk )
 end
 
 def projects( &blk )
-  InvoiceGenerator::ProjectsGenerator.new( $projects ).instance_eval( &blk )
+  InvoiceGenerator::ProjectsGenerator.new( $projects, $customers ).instance_eval( &blk )
 end
 
 def invoice( number, &blk )
   $invoice.number = number
-  InvoiceGenerator::InvoiceGenerator.new( $invoice, $companies, $customers, $projects ).instance_eval( &blk )
+  InvoiceGenerator::InvoiceGenerator.new( $invoice, $companies, $projects ).instance_eval( &blk )
 end
 
 def process( filename_root, generate_tex = true )

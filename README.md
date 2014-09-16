@@ -47,6 +47,7 @@ Here's a sample invoice file:
     projects do
       project :nuclear_plant do
         name "Building a nuclear power plant"
+        customer :candu
         purchase_order "123456"
         terms "NET 30"
         item :labour, "Labour - Principle", 50.00
@@ -57,7 +58,6 @@ Here's a sample invoice file:
     
     invoice 1 do
       company :sancorp
-      customer :candu
       project :nuclear_plant
       date "2014-09-30"
       message "Labour and expenses for building your nuclear power plant"

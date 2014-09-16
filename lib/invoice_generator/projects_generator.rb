@@ -19,15 +19,16 @@ module InvoiceGenerator
   
   class ProjectsGenerator
 
-    def initialize( projects )
+    def initialize( projects, customers )
       @projects = projects
+      @customers = customers
     end
 
     def project( id, &blk )
       project = Project.new
       project.id = id
       @projects[ id ] = project
-      ProjectGenerator.new( project ).instance_eval( &blk )
+      ProjectGenerator.new( project, @customers ).instance_eval( &blk )
     end
     
   end

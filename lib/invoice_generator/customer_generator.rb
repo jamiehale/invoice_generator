@@ -33,6 +33,10 @@ module InvoiceGenerator
       @customer.attention = attention
     end
     
+    def projects( &blk )
+      ProjectsGenerator.new( @customer.projects ).instance_eval( &blk )
+    end
+    
   end
   
 end
