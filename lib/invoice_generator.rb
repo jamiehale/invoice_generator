@@ -52,18 +52,18 @@ require 'invoice_generator/tax_line_item_dumper'
 $root_path = File.expand_path( File.join( File.dirname( __FILE__ ), '..' ) )
 $res_path = File.join( $root_path, 'res' )
 
-def company( name, &blk )
-  $invoice.company.name = name
+def company( id, &blk )
+  $invoice.company.id = id
   InvoiceGenerator::CompanyGenerator.new( $invoice.company ).instance_eval( &blk )
 end
 
-def customer( name, &blk )
-  $invoice.customer.name = name
+def customer( id, &blk )
+  $invoice.customer.id = id
   InvoiceGenerator::CustomerGenerator.new( $invoice.customer ).instance_eval( &blk )
 end
 
-def project( name, &blk )
-  $invoice.project.name = name
+def project( id, &blk )
+  $invoice.project.id = id
   InvoiceGenerator::ProjectGenerator.new( $invoice.project ).instance_eval( &blk )
 end
 

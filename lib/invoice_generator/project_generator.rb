@@ -23,6 +23,10 @@ module InvoiceGenerator
       @project = project
     end
     
+    def name( name )
+      @project.name = name
+    end
+    
     def purchase_order( purchase_order )
       @project.purchase_order = purchase_order
     end

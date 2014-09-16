@@ -20,7 +20,8 @@ Here's a sample invoice file:
     
     require 'invoice'
     
-    company "Small Army Of Nerds Corp." do
+    company :sancorp do
+      name "Small Army Of Nerds Corp."
       address "202-327 Renfrew Drive"
       city "Markham"
       province "ON"
@@ -30,7 +31,8 @@ Here's a sample invoice file:
       hst "123456789"
     end
     
-    customer "Candu Energy Inc." do
+    customer :candu do
+      name "Candu Energy Inc."
       address "2285 Speakman Drive"
       city "Mississauga"
       province "ON"
@@ -38,7 +40,8 @@ Here's a sample invoice file:
       attention "Attention: Accounts Payable"
     end
     
-    project "Building a nuclear power plant" do
+    project :nuclear_plant do
+      name "Building a nuclear power plant"
       purchase_order "123456"
       terms "NET 30"
       item :labour, "Labour - Principle", 50.00

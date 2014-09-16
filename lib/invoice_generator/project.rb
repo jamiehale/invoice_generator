@@ -19,7 +19,7 @@ module InvoiceGenerator
   
   class Project
     
-    attr_accessor :name, :purchase_order, :terms, :items
+    attr_accessor :id, :name, :purchase_order, :terms, :items
     
     def initialize
       @items = {}

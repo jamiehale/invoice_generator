@@ -21,7 +21,7 @@ module InvoiceGenerator
     
     include Address
     
-    attr_accessor :name, :email, :hst, :logo_filename
+    attr_accessor :id, :name, :email, :hst, :logo_filename
 
   end
   

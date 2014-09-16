@@ -20,7 +20,7 @@ module InvoiceGenerator
 
     include Address
     
-    attr_accessor :name, :attention
+    attr_accessor :id, :name, :attention
     
   end
   
