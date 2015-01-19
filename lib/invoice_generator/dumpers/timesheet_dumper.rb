@@ -27,7 +27,8 @@ module InvoiceGenerator
         @timesheet = timesheet
       end
     
-      def dump_latex_definitions( f = STDOUT )
+      def dump_latex( f = STDOUT )
+        f.puts( '\\documentclass{template/timesheet}' )
         dump_definition( f, "timesheetWorker", @timesheet.employee.name )
         dump_definition( f, "timesheetWorkerSignatureFile", @timesheet.employee.signature_filename )
         dump_definition( f, "timesheetClient", @timesheet.project.customer.name )
@@ -35,7 +36,11 @@ module InvoiceGenerator
         dump_definition( f, "timesheetWeekEnding", @timesheet.week_end )
         dump_definition( f, "timesheetDate", DateTime.now.strftime( '%Y-%m-%d' ) )
         dump_definition( f, "timesheetPONumber", @timesheet.project.purchase_order + client_job_extra )
-        f.puts( "\\input{template/timesheet.tex}" )
+        f.puts( '\\begin{document}' )
+        f.puts( '\\begin{timesheet}' )
+        dump_latex_rows( f )
+        f.puts( '\\end{timesheet}' )
+        f.puts( '\\end{document}' )
       end
     
       def dump_latex_rows( f = STDOUT )

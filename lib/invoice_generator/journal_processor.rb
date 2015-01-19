@@ -26,8 +26,7 @@ module InvoiceGenerator
       copy_template_files( File.dirname( filename_root ) )
       journal.timesheets.each_value do |timesheet|
         create_output_folder( timesheet.project )
-        dump_latex_definitions( timesheet, filename_root )
-        dump_latex_rows( timesheet )
+        dump_latex( timesheet, filename_root )
         system( $pdflatex, output_filename( timesheet.project, filename_root ) ) if generate_tex
       end
     end
@@ -46,18 +45,12 @@ module InvoiceGenerator
         "out/#{project.id}/#{filename_root}.tex"
       end
 
-      def dump_latex_definitions( timesheet, filename_root )
+      def dump_latex( timesheet, filename_root )
         open( output_filename( timesheet.project, filename_root ), "w" ) do |f|
-          Dumpers::TimesheetDumper.new( timesheet ).dump_latex_definitions( f )
+          Dumpers::TimesheetDumper.new( timesheet ).dump_latex( f )
         end
       end
 
-      def dump_latex_rows( timesheet )
-        open( "out/#{timesheet.project.id}/timesheet_rows.tex", "w" ) do |f|
-          Dumpers::TimesheetDumper.new( timesheet ).dump_latex_rows( f )
-        end
-      end
-    
   end
   
 end
