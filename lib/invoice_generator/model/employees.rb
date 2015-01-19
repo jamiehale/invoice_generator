@@ -19,12 +19,18 @@ module InvoiceGenerator
   
   module Model
   
-    class Project
-    
-      attr_accessor :id, :name, :client_extra, :customer, :purchase_order, :terms, :items
-    
+    class Employees
+
       def initialize
-        @items = {}
+        @employees = {}
+      end
+    
+      def []( id )
+        @employees[ id ]
+      end
+    
+      def []=( id, employee )
+        @employees[ id ] = employee
       end
     
     end

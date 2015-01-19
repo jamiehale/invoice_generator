@@ -19,14 +19,17 @@ module InvoiceGenerator
   
   module Model
   
-    class Project
+    class JournalEntry
     
-      attr_accessor :id, :name, :client_extra, :customer, :purchase_order, :terms, :items
+      attr_accessor :day, :project_item, :units, :description
     
-      def initialize
-        @items = {}
+      def initialize( day, project_item, units, description )
+        @day = day
+        @project_item = project_item
+        @units = units
+        @description = description
       end
-    
+      
     end
     
   end

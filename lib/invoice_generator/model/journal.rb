@@ -19,14 +19,21 @@ module InvoiceGenerator
   
   module Model
   
-    class Project
+    class Journal
     
-      attr_accessor :id, :name, :client_extra, :customer, :purchase_order, :terms, :items
+      attr_accessor :employee, :week_end, :days, :timesheets
     
       def initialize
-        @items = {}
+        @employee = nil
+        @week_end = nil
+        @timesheets = {}
       end
-    
+      
+      def add_entry( journal_entry )
+        @timesheets[ journal_entry.project_item.project.id ] ||= Timesheet.new( journal_entry.project_item.project, @employee, @week_end )
+        @timesheets[ journal_entry.project_item.project.id ].add_journal_entry( journal_entry )
+      end
+      
     end
     
   end

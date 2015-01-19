@@ -19,13 +19,9 @@ module InvoiceGenerator
   
   module Model
   
-    class Project
-    
-      attr_accessor :id, :name, :client_extra, :customer, :purchase_order, :terms, :items
-    
-      def initialize
-        @items = {}
-      end
+    class Employee
+
+      attr_accessor :id, :name, :signature_filename
     
     end
     

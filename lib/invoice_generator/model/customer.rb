@@ -14,6 +14,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with invoice_generator.  If not, see <http://www.gnu.org/licenses/>.
+
 module InvoiceGenerator
   
   module Model

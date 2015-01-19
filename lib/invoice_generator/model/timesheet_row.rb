@@ -19,14 +19,21 @@ module InvoiceGenerator
   
   module Model
   
-    class Project
+    class TimesheetRow
     
-      attr_accessor :id, :name, :client_extra, :customer, :purchase_order, :terms, :items
+      attr_accessor :task_name, :line_number, :units, :comment
     
-      def initialize
-        @items = {}
+      def initialize( task_name, line_number )
+        @task_name = task_name
+        @line_number = line_number
+        @comment = nil
+        @units = { :sunday => 0.0, :monday => 0.0, :tuesday => 0.0, :wednesday => 0.0, :thursday => 0.0, :friday => 0.0, :saturday => 0.0 }
       end
-    
+      
+      def total
+        @units.values.inject( 0.0 ) {|total,units| total + units}
+      end
+      
     end
     
   end

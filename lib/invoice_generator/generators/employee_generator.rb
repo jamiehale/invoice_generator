@@ -17,14 +17,20 @@
 
 module InvoiceGenerator
   
-  module Model
+  module Generators
   
-    class Project
+    class EmployeeGenerator
     
-      attr_accessor :id, :name, :client_extra, :customer, :purchase_order, :terms, :items
+      def initialize( employee )
+        @employee = employee
+      end
     
-      def initialize
-        @items = {}
+      def name( name )
+        @employee.name = name
+      end
+    
+      def signature_file( filename )
+        @employee.signature_filename = filename
       end
     
     end

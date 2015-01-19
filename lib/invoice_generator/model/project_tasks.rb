@@ -19,12 +19,23 @@ module InvoiceGenerator
   
   module Model
   
-    class Project
+    class ProjectTasks
     
-      attr_accessor :id, :name, :client_extra, :customer, :purchase_order, :terms, :items
+      attr_accessor :timesheet, :project, :items
     
-      def initialize
+      def initialize( timesheet, project )
+        @timesheet = timesheet
+        @project = project
         @items = {}
+      end
+      
+      def item_by_id( project_item )
+        @items[ project_item.id ] ||= ProjectItemTasks.new( self, project_item )
+      end
+      
+      def add_task( day, project_item_id, units, description )
+        item_tasks = item_by_id( @project.items[ project_item_id ] )
+        item_tasks.add_task( day, units, description )
       end
     
     end

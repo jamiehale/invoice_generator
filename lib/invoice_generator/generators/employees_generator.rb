@@ -17,14 +17,19 @@
 
 module InvoiceGenerator
   
-  module Model
+  module Generators
   
-    class Project
-    
-      attr_accessor :id, :name, :client_extra, :customer, :purchase_order, :terms, :items
-    
-      def initialize
-        @items = {}
+    class EmployeesGenerator
+
+      def initialize( employees )
+        @employees = employees
+      end
+
+      def employee( id, &blk )
+        employee = Model::Employee.new
+        employee.id = id
+        @employees[ id ] = employee
+        EmployeeGenerator.new( employee ).instance_eval( &blk )
       end
     
     end

@@ -19,12 +19,22 @@ module InvoiceGenerator
   
   module Model
   
-    class Project
+    class ProjectItemTasks
     
-      attr_accessor :id, :name, :client_extra, :customer, :purchase_order, :terms, :items
+      attr_accessor :project, :days
     
-      def initialize
-        @items = {}
+      def initialize( project_tasks, project_item )
+        @project_tasks = project_tasks
+        @project_item = project_item
+        @days = { :sunday => [], :monday => [], :tuesday => [], :wednesday => [], :thursday => [], :friday => [], :saturday => [] }
+      end
+      
+      def add_task( day, units, description )
+        @days[ day ] << Task.new( @project_item, units, description )
+      end
+      
+      def total_for_day( day )
+        @days[ day ].inject( 0 ) {|total,task| total + task.units}
       end
     
     end

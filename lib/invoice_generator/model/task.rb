@@ -19,14 +19,16 @@ module InvoiceGenerator
   
   module Model
   
-    class Project
+    class Task
     
-      attr_accessor :id, :name, :client_extra, :customer, :purchase_order, :terms, :items
+      attr_reader :project_item, :units, :description
     
-      def initialize
-        @items = {}
+      def initialize( project_item, units, description )
+        @project_item = project_item
+        @units = units
+        @description = description
       end
-    
+      
     end
     
   end

@@ -19,14 +19,30 @@ module InvoiceGenerator
   
   module Model
   
-    class Project
+    class Timesheet
     
-      attr_accessor :id, :name, :client_extra, :customer, :purchase_order, :terms, :items
+      attr_accessor :project, :employee, :week_end, :journal_entries
     
-      def initialize
-        @items = {}
+      def initialize( project, employee, week_end )
+        @project = project
+        @employee = employee
+        @week_end = week_end
+        @journal_entries = []
       end
-    
+      
+      def add_journal_entry( journal_entry )
+        @journal_entries << journal_entry
+      end
+      
+      def generate_rows
+        rows = {}
+        @journal_entries.each do |journal_entry|
+          rows[ journal_entry.project_item.id ] ||= TimesheetRow.new( journal_entry.project_item.name, journal_entry.project_item.line_number )
+          rows[ journal_entry.project_item.id ].units[ journal_entry.day ] += journal_entry.units
+        end
+        rows.values
+      end
+      
     end
     
   end

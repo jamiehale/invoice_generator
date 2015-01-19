@@ -29,6 +29,10 @@ module InvoiceGenerator
       def name( name )
         @project.name = name
       end
+      
+      def client_extra( client_extra )
+        @project.client_extra = client_extra
+      end
     
       def customer( id )
         raise "Customer \"#{id}\" has not been defined" if @customers[ id ].nil?
@@ -44,7 +48,7 @@ module InvoiceGenerator
       end
     
       def item( id, name, rate, decimals = 2 )
-        @project.items[ id ] = Model::ProjectItem.new( id, name, rate, decimals )
+        @project.items[ id ] = Model::ProjectItem.new( id, @project, name, rate, decimals )
       end
     
     end

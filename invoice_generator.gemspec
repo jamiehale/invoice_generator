@@ -17,7 +17,7 @@
 
 Gem::Specification.new do |s|
   s.name        = 'invoice_generator'
-  s.version     = '0.0.9'
+  s.version     = '0.0.10'
   s.date        = '2014-09-12'
   s.summary     = "Invoice generator"
   s.description = "Script for creating LaTeX input files for generating invoices."

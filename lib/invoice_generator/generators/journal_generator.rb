@@ -17,25 +17,49 @@
 
 module InvoiceGenerator
   
-  module Model
+  module Generators
   
-    class ProjectItem
+    class JournalGenerator
     
-      attr_accessor :id, :project, :name, :rate, :decimals, :line_number
-    
-      def initialize( id, project, name, rate, decimals )
-        @id = id
-        @project = project
-        @name = name
-        @rate = rate
-        @decimals = decimals
-        @line_number = nil
+      def initialize( journal, projects )
+        @journal = journal
+        @projects = projects
+        @active_day = :sunday
       end
     
-      def rounded_rate
-        @rate.round( @decimals )
+      def sunday
+        @active_day = :sunday
       end
     
+      def monday
+        @active_day = :monday
+      end
+    
+      def tuesday
+        @active_day = :tuesday
+      end
+    
+      def wednesday
+        @active_day = :wednesday
+      end
+    
+      def thursday
+        @active_day = :thursday
+      end
+    
+      def friday
+        @active_day = :friday
+      end
+    
+      def saturday
+        @active_day = :saturday
+      end
+    
+      def task( project_id, project_task_id, units, description )
+        project = @projects[ project_id ]
+        @journal.add_entry( Model::JournalEntry.new( @active_day, project.items[ project_task_id ], units, description ) )
+      end
+      
     end
     
   end
