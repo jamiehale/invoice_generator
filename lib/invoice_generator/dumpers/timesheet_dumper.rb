@@ -45,7 +45,7 @@ module InvoiceGenerator
     
       def dump_latex_rows( f = STDOUT )
         @timesheet.generate_rows.each do |timesheet_row|
-          f.puts("\\timesheetLine{#{timesheet_row.task_name}}{\\timesheetLineUnits{#{timesheet_row.units[:sunday]}}{#{timesheet_row.units[:monday]}}{#{timesheet_row.units[:tuesday]}}{#{timesheet_row.units[:wednesday]}}{#{timesheet_row.units[:thursday]}}{#{timesheet_row.units[:friday]}}{#{timesheet_row.units[:saturday]}}{#{timesheet_row.total}}}{#{timesheet_row.comment}}{#{timesheet_row.line_number}}")
+          f.puts("\\timesheetLine{#{timesheet_row.project_item.name}}{\\timesheetLineUnits{#{timesheet_row.rounded_units[:sunday]}}{#{timesheet_row.rounded_units[:monday]}}{#{timesheet_row.rounded_units[:tuesday]}}{#{timesheet_row.rounded_units[:wednesday]}}{#{timesheet_row.rounded_units[:thursday]}}{#{timesheet_row.rounded_units[:friday]}}{#{timesheet_row.rounded_units[:saturday]}}{#{timesheet_row.rounded_total}}}{#{timesheet_row.comment}}{#{timesheet_row.project_item.line_number}}")
         end
       end
       
@@ -54,7 +54,7 @@ module InvoiceGenerator
         def client_job_extra
           @timesheet.project.client_extra.nil? ? "" : " (#{@timesheet.project.client_extra})"
         end
-    
+        
     end
     
   end

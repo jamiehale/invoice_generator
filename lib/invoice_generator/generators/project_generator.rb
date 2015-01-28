@@ -30,6 +30,10 @@ module InvoiceGenerator
         @project.name = name
       end
       
+      def short_name( short_name )
+        @project.short_name = short_name
+      end
+      
       def client_extra( client_extra )
         @project.client_extra = client_extra
       end
@@ -47,9 +51,22 @@ module InvoiceGenerator
         @project.terms = terms
       end
     
-      def item( id, name, rate, decimals = 2 )
-        @project.items[ id ] = Model::ProjectItem.new( id, @project, name, rate, decimals )
+      def item( id, name, rate, options = default_item_options )
+        @project.items[ id ] = Model::ProjectItem.new( id, @project, name, rate, options[ :invoice_price_decimals ], options[ :timesheet_unit_decimals ] )
       end
+      
+      def budget( &blk )
+        BudgetGenerator.new( @project ).instance_eval( &blk )
+      end
+      
+      private
+      
+        def default_item_options
+          {
+            :invoice_price_decimals => 2,
+            :timesheet_unit_decimals => 1
+          }
+        end
     
     end
     

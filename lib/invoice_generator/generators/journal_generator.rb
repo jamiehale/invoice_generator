@@ -55,9 +55,9 @@ module InvoiceGenerator
         @active_day = :saturday
       end
     
-      def task( project_id, project_task_id, units, description )
+      def task( project_id, budget_item_id, project_task_id, units, description )
         project = @projects[ project_id ]
-        @journal.add_entry( Model::JournalEntry.new( @active_day, project.items[ project_task_id ], units, description ) )
+        @journal.add_entry( Model::JournalEntry.new( @active_day, project.budget.items[ budget_item_id ], project.items[ project_task_id ], units, description ) )
       end
       
     end

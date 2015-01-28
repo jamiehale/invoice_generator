@@ -17,18 +17,16 @@
 
 module InvoiceGenerator
   
-  module Model
+  module Generators
   
-    class JournalEntry
+    class BudgetGenerator
     
-      attr_accessor :day, :budget_item, :project_item, :units, :description
-    
-      def initialize( day, budget_item, project_item, units, description )
-        @day = day
-        @budget_item = budget_item
-        @project_item = project_item
-        @units = units
-        @description = description
+      def initialize( project )
+        @project = project
+      end
+        
+      def item( id, name, amount )
+        @project.budget.add_item( Model::BudgetItem.new( id, name, amount ) )
       end
       
     end

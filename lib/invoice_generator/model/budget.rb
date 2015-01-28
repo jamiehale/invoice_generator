@@ -19,18 +19,20 @@ module InvoiceGenerator
   
   module Model
   
-    class JournalEntry
+    class Budget
     
-      attr_accessor :day, :budget_item, :project_item, :units, :description
+      attr_accessor :project, :items
     
-      def initialize( day, budget_item, project_item, units, description )
-        @day = day
-        @budget_item = budget_item
-        @project_item = project_item
-        @units = units
-        @description = description
+      def initialize( project )
+        @project = project
+        @items = {}
       end
       
+      def add_item( budget_item )
+        budget_item.budget = self
+        @items[ budget_item.id ] = budget_item
+      end
+    
     end
     
   end

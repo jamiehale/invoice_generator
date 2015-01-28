@@ -34,7 +34,7 @@ module InvoiceGenerator
       private
     
         def rate
-          formatted_amount( @line_item.project_item.rounded_rate, @line_item.project_item.decimals )
+          formatted_amount( @line_item.project_item.rounded_rate, @line_item.project_item.invoice_price_decimals )
         end
     end
     

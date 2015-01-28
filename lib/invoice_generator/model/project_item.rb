@@ -21,19 +21,20 @@ module InvoiceGenerator
   
     class ProjectItem
     
-      attr_accessor :id, :project, :name, :rate, :decimals, :line_number
+      attr_accessor :id, :project, :name, :rate, :invoice_price_decimals, :timesheet_unit_decimals, :line_number
     
-      def initialize( id, project, name, rate, decimals )
+      def initialize( id, project, name, rate, invoice_price_decimals, timesheet_unit_decimals )
         @id = id
         @project = project
         @name = name
         @rate = rate
-        @decimals = decimals
+        @invoice_price_decimals = invoice_price_decimals
+        @timesheet_unit_decimals = timesheet_unit_decimals
         @line_number = nil
       end
     
       def rounded_rate
-        @rate.round( @decimals )
+        @rate.round( @invoice_price_decimals )
       end
     
     end

@@ -37,7 +37,7 @@ module InvoiceGenerator
       def generate_rows
         rows = {}
         @journal_entries.each do |journal_entry|
-          rows[ journal_entry.project_item.id ] ||= TimesheetRow.new( journal_entry.project_item.name, journal_entry.project_item.line_number )
+          rows[ journal_entry.project_item.id ] ||= TimesheetRow.new( journal_entry.project_item )
           rows[ journal_entry.project_item.id ].units[ journal_entry.day ] += journal_entry.units
         end
         rows.values

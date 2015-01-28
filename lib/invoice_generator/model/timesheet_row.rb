@@ -21,11 +21,10 @@ module InvoiceGenerator
   
     class TimesheetRow
     
-      attr_accessor :task_name, :line_number, :units, :comment
+      attr_accessor :project_item, :units, :comment
     
-      def initialize( task_name, line_number )
-        @task_name = task_name
-        @line_number = line_number
+      def initialize( project_item )
+        @project_item = project_item
         @comment = nil
         @units = { :sunday => 0.0, :monday => 0.0, :tuesday => 0.0, :wednesday => 0.0, :thursday => 0.0, :friday => 0.0, :saturday => 0.0 }
       end
@@ -33,6 +32,23 @@ module InvoiceGenerator
       def total
         @units.values.inject( 0.0 ) {|total,units| total + units}
       end
+      
+      def rounded_total
+        round_or_zero( total )
+      end
+      
+      def rounded_units
+        results = {}
+        @units.each { |k,v| results[ k ] = round_or_zero( v ) }
+        results
+      end
+      
+      private
+      
+        def round_or_zero( v )
+          return '-' if v == 0
+          v.round( @project_item.timesheet_unit_decimals )
+        end
       
     end
     

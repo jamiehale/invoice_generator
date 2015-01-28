@@ -26,8 +26,10 @@ module InvoiceGenerator
       copy_template_files( File.dirname( filename_root ) )
       journal.timesheets.each_value do |timesheet|
         create_output_folder( timesheet.project )
-        dump_latex( timesheet, filename_root )
-        system( $pdflatex, output_filename( timesheet.project, filename_root ) ) if generate_tex
+        dump_latex( timesheet )
+        system( $pdflatex, output_filename( timesheet ) ) if generate_tex
+        
+        dump_budget_report( timesheet )
       end
     end
     
@@ -41,13 +43,27 @@ module InvoiceGenerator
         FileUtils.mkdir_p( "out/#{project.id}" )
       end
 
-      def output_filename( project, filename_root )
-        "out/#{project.id}/#{filename_root}.tex"
+      def output_filename( timesheet )
+        filename = "#{timesheet.week_end} #{timesheet.project.short_name} Timesheet"
+        "out/#{timesheet.project.id}/#{filename}.tex"
       end
 
-      def dump_latex( timesheet, filename_root )
-        open( output_filename( timesheet.project, filename_root ), "w" ) do |f|
+      def dump_latex( timesheet )
+        open( output_filename( timesheet ), "w" ) do |f|
           Dumpers::TimesheetDumper.new( timesheet ).dump_latex( f )
+        end
+      end
+      
+      def dump_budget_report( timesheet )
+        budget_items = {}
+        timesheet.project.budget.items.each_value do |budget_item|
+          budget_items[ budget_item.id ] = [ budget_item.amount, 0.0 ]
+        end
+        timesheet.journal_entries.each do |journal_entry|
+          budget_items[ journal_entry.budget_item.id ][ 1 ] += journal_entry.units * journal_entry.project_item.rate
+        end
+        budget_items.each do |id,amounts|
+          puts "#{id}: #{amounts[0]} -- #{amounts[1]}"
         end
       end
 

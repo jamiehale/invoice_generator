@@ -21,10 +21,11 @@ module InvoiceGenerator
   
     class Project
     
-      attr_accessor :id, :name, :client_extra, :customer, :purchase_order, :terms, :items
+      attr_accessor :id, :name, :short_name, :client_extra, :customer, :purchase_order, :terms, :items, :budget
     
       def initialize
         @items = {}
+        @budget = Budget.new( self )
       end
     
     end
