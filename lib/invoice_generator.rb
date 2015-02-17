@@ -17,6 +17,7 @@
 
 require 'date'
 require 'fileutils'
+require 'yaml'
 
 require 'invoice_generator/invoice_processor'
 require 'invoice_generator/journal_processor'

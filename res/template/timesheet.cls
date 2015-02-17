@@ -96,7 +96,7 @@
   
   \begin{tabular}{>{\raggedleft\arraybackslash}p{3cm} c}
     Signature: & \parbox[c]{8em}{\includegraphics[width=30mm]{\timesheetWorkerSignatureFile}} \\
-    & 2015-01-15 \\
+    & \timesheetDate \\
   \end{tabular}
   
   \vspace{2cm}

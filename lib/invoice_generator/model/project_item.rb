@@ -28,8 +28,8 @@ module InvoiceGenerator
         @project = project
         @name = name
         @rate = rate
-        @invoice_price_decimals = invoice_price_decimals
-        @timesheet_unit_decimals = timesheet_unit_decimals
+        @invoice_price_decimals = ( invoice_price_decimals or 2 )
+        @timesheet_unit_decimals = ( timesheet_unit_decimals or 2 )
         @line_number = nil
       end
     

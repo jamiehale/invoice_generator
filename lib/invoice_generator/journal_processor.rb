@@ -20,32 +20,52 @@ module InvoiceGenerator
   class JournalProcessor
     
     def initialize
+      @expenditures = { :projects => {} }
     end
     
     def process( journal, filename_root, generate_tex )
+      @expenditures[ :week_ending ] = journal.week_end
       copy_template_files( File.dirname( filename_root ) )
       journal.timesheets.each_value do |timesheet|
         create_output_folder( timesheet.project )
         dump_latex( timesheet )
         system( $pdflatex, output_filename( timesheet ) ) if generate_tex
         
+        @expenditures[ :projects ][ timesheet.project.id ] = {}
         dump_budget_report( timesheet )
+      end
+      
+      open( budget_filename, 'w' ) do |f|
+        f.write( @expenditures.to_yaml )
       end
     end
     
     private
     
+      def budget_filename
+        "expenditures.yml"
+      end
+    
       def copy_template_files( destination_path )
         FileUtils.cp_r Dir.glob( "#{$RES_PATH}/*" ), destination_path
       end
       
+      def output_folder( project )
+        "out/#{project.id}"
+      end
+      
       def create_output_folder( project )
-        FileUtils.mkdir_p( "out/#{project.id}" )
+        FileUtils.mkdir_p( output_folder( project ) )
       end
 
+      def timesheet_filename( timesheet )
+        "#{timesheet.week_end} #{timesheet.project.short_name} Timesheet"
+      end
+      
       def output_filename( timesheet )
-        filename = "#{timesheet.week_end} #{timesheet.project.short_name} Timesheet"
-        "out/#{timesheet.project.id}/#{filename}.tex"
+        filename = timesheet_filename( timesheet )
+        path = output_folder( timesheet.project )
+        "#{path}/#{filename}.tex"
       end
 
       def dump_latex( timesheet )
@@ -55,15 +75,11 @@ module InvoiceGenerator
       end
       
       def dump_budget_report( timesheet )
-        budget_items = {}
         timesheet.project.budget.items.each_value do |budget_item|
-          budget_items[ budget_item.id ] = [ budget_item.amount, 0.0 ]
+          @expenditures[ :projects ][ timesheet.project.id ][ budget_item.id ] = 0.0
         end
         timesheet.journal_entries.each do |journal_entry|
-          budget_items[ journal_entry.budget_item.id ][ 1 ] += journal_entry.units * journal_entry.project_item.rate
-        end
-        budget_items.each do |id,amounts|
-          puts "#{id}: #{amounts[0]} -- #{amounts[1]}"
+          @expenditures[ :projects ][ timesheet.project.id ][ journal_entry.budget_item.id ] += ( journal_entry.units * journal_entry.project_item.rate ).round( 2 )
         end
       end
 
