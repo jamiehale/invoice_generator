@@ -35,7 +35,7 @@ module InvoiceGenerator
         dump_definition( f, "timesheetJob", @timesheet.project.name )
         dump_definition( f, "timesheetWeekEnding", @timesheet.week_end )
         dump_definition( f, "timesheetDate", DateTime.now.strftime( '%Y-%m-%d' ) )
-        dump_definition( f, "timesheetPONumber", @timesheet.project.purchase_order + client_job_extra )
+        dump_definition( f, "timesheetPONumber", purchase_order + client_job_extra )
         f.puts( '\\begin{document}' )
         f.puts( '\\begin{timesheet}' )
         dump_latex_rows( f )
@@ -51,6 +51,10 @@ module InvoiceGenerator
       
       private
       
+        def purchase_order
+          @timesheet.project.purchase_order.nil? ? "" : @timesheet.project.purchase_order
+        end
+        
         def client_job_extra
           @timesheet.project.client_extra.nil? ? "" : " (#{@timesheet.project.client_extra})"
         end

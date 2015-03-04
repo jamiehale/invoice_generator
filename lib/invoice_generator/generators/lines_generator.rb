@@ -45,6 +45,10 @@ module InvoiceGenerator
         raise "Project item \"#{item_id}\" does not exist in project \"#{@invoice.project.name}\"" if @invoice.project.items[ item_id ].nil?
         @invoice.lines << Model::LineItem.new( @invoice.project.items[ item_id ], units )
       end
+      
+      def raw( description, amount )
+        @invoice.lines << Model::RawItem.new( description, amount )
+      end
     
     end
     

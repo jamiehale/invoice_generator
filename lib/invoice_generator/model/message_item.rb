@@ -19,29 +19,21 @@ module InvoiceGenerator
   
   module Model
   
-    class LineGroup
+    class MessageItem
     
-      attr_accessor :id, :name, :lines
+      attr_accessor :message
     
-      def initialize( id, name )
-        @id = id
-        @name = name
-        @lines = []
+      def initialize( message )
+        @message = message
       end
-    
+      
       def total
-        unrounded_total.round( 2 )
+        0.0
       end
     
       def create_dumper
-        Dumpers::LineGroupDumper.new( self )
+        Dumpers::MessageItemDumper.new( self )
       end
-      
-      private
-      
-        def unrounded_total
-          @lines.inject( 0.0 ) { |result,line| result + line.total }
-        end
     
     end
     

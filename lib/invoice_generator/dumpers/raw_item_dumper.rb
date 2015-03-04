@@ -17,31 +17,19 @@
 
 module InvoiceGenerator
   
-  module Model
+  module Dumpers
   
-    class LineGroup
+    class RawItemDumper
     
-      attr_accessor :id, :name, :lines
+      include LatexHelper
     
-      def initialize( id, name )
-        @id = id
-        @name = name
-        @lines = []
+      def initialize( raw_item )
+        @raw_item = raw_item
       end
     
-      def total
-        unrounded_total.round( 2 )
+      def dump_latex_rows( f )
+        f.puts "\\rawRow{#{@raw_item.description}}{#{formatted_amount(@raw_item.amount)}}"
       end
-    
-      def create_dumper
-        Dumpers::LineGroupDumper.new( self )
-      end
-      
-      private
-      
-        def unrounded_total
-          @lines.inject( 0.0 ) { |result,line| result + line.total }
-        end
     
     end
     

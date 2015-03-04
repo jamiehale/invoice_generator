@@ -31,6 +31,14 @@ module InvoiceGenerator
         @line_group.lines << Model::LineItem.new( @project.items[ item_id ], units )
       end
     
+      def raw( description, amount )
+        @line_group.lines << Model::RawItem.new( description, amount )
+      end
+      
+      def message( message )
+        @line_group.lines << Model::MessageItem.new( message )
+      end
+    
     end
     
   end

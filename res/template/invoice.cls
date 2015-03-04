@@ -87,6 +87,10 @@
     \multicolumn{4}{c}{\it ##1} \\
   }
   
+  \newcommand{\rawRow}[2]{
+    \multicolumn{3}{l}{\it ##1} & ##2 \\
+  }
+  
   \newcommand{\groupNameRow}[1]{
     \multicolumn{4}{l}{##1} \\
   }
