@@ -49,6 +49,10 @@ module InvoiceGenerator
       def raw( description, amount )
         @invoice.lines << Model::RawItem.new( description, amount )
       end
+      
+      def note( message )
+        @invoice.lines << Model::NoteItem.new( message )
+      end
     
     end
     
